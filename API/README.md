@@ -20,9 +20,9 @@ pip install packaging
 pip install transformer_engine[pytorch]
 
 # Install Megatron Core
-git clone https://github.com/NVIDIA/Megatron-LM.git && \
-cd Megatron-LM && \
-git checkout $mcore_commit && \
-pip install . && \
-cd megatron/core/datasets && \
+git clone https://github.com/NVIDIA/Megatron-LM.git \
+cd Megatron-LM \
+git checkout $mcore_commit \
+pip install . \
+cd megatron/core/datasets \
 make
