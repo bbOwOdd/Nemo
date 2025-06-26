@@ -26,3 +26,8 @@ git checkout $mcore_commit \
 pip install . \
 cd megatron/core/datasets \
 make
+
+# Implemet fineture/inference/evaluate
+fineture: python finetune.py \
+inference: python inference.py \
+evaluate: python evaluate.py --pred_file peft_prediction.jsonl --label_field "input" --pred_field "prediction"
