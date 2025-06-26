@@ -1,0 +1,38 @@
+#/home/z890/.conda/envs/nemo/lib/python3.10/site-packages/transformer_engine/pytorch/ops/_common.py
+def maybe_autocast_dtype(
+    *,
+    device_type: str = "cuda",
+    default_dtype: Optional[torch.dtype] = None,
+) -> torch.dtype:
+    """Get autocast dtype if enabled"""
+    if torch.is_autocast_enabled(): -> origin: if torch.is_autocast_enabled(device_type)
+        return torch.get_autocast_dtype(device_type)
+    return canonicalize_dtype(default_dtype)
+    
+#/home/z890/.conda/envs/nemo/lib/python3.10/site-packages/megatron/core/dist_checkpointing/validation.py
+def _validate_sharding_for_key_flattened(tensors_by_shard):
+    all_slices = []
+    local_shape = tensors_by_shard[0].local_shape
+    for sharding in tensors_by_shard:
+        assert sharding.local_shape == local_shape
+        sharding: ShardedTensor
+        if not is_main_replica(sharding.replica_id):
+            continue
+
+        all_slices.append((sharding.flattened_range.start, sharding.flattened_range.stop))
+
+    starts, stops = map(np.asarray, zip(*sorted(all_slices)))
+    expected_size = np.prod(local_shape) -> origin: expected_size = np.product(local_shape)
+    if starts[0] != 0 or stops[-1] != expected_size or not np.all(starts[1:] == stops[:-1]):
+        raise CheckpointingException(
+            f'Flattened ranges dont cover the whole shard {tensors_by_shard[0]} of size {expected_size}. Ranges: {(starts, stops)}'
+        )
+        
+/home/z890/.conda/envs/nemodev/lib/python3.10/site-packages/megatron/core/dist_checkpointing/exchange_utils.py
+def _shard_size(sh_ten: ShardedTensor):
+    """Returns size in bytes of a given sharded tensor."""
+    if sh_ten.flattened_range is None:
+        numel = np.prod(sh_ten.local_shape) -> origin: np.product(sh_ten.local_shape)
+    else:
+        numel = sh_ten.flattened_range.stop - sh_ten.flattened_range.start
+    return numel * torch._utils._element_size(sh_ten.dtype)
