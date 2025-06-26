@@ -1,5 +1,5 @@
 # create virtual environment
-conda create --name nemo python==3.10.12
+conda create --name nemo python==3.10.12 /br
 conda activate nemo
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
 
