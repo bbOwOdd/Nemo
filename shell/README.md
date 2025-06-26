@@ -16,3 +16,6 @@ Then you should see the finetuned result in the results folder
 # Run inference
 bahs inference.sh \
 Then you should see the output in the folder that you set up
+
+# Original Source
+check more from https://github.com/NVIDIA/NeMo/blob/main/tutorials/llm/llama/biomedical-qa/llama3-lora-nemofw.ipynb
