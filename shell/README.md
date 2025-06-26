@@ -14,7 +14,7 @@ bash finetune.sh \
 Then you should see the finetuned result in the results folder
 
 # Run inference
-bahs inference.sh \
+bash inference.sh \
 Then you should see the output in the folder that you set up
 
 # Original Source
