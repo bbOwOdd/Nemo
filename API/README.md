@@ -1,4 +1,4 @@
-# create virtual environment
+# Create virtual environment
 conda create --name nemo python==3.10.12 \
 conda activate nemo \
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia \
@@ -27,7 +27,7 @@ pip install . \
 cd megatron/core/datasets \
 make
 
-# Implemet fineture/inference/evaluate
-fineture: python finetune.py \
-inference: python inference.py \
-evaluate: python evaluate.py --pred_file peft_prediction.jsonl --label_field "input" --pred_field "prediction"
+# Implemet Fineture/Inference/Evaluate
+Fineture: python finetune.py \
+Inference: python inference.py \
+Evaluate: python evaluate.py --pred_file peft_prediction.jsonl --label_field "input" --pred_field "prediction"
