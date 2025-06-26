@@ -16,12 +16,15 @@ mkdir -p $NIM_CACHE_PATH \
 chmod -R 777 $NIM_CACHE_PATH
 
 # Deploy the finetuned model
-docker run -it --rm --name=$CONTAINER_NAME       --gpus all       --network=host       --shm-size=16GB       -e NGC_API_KEY       -e NIM_PEFT_SOURCE  -e NIM_MAX_MODEL_LEN=65525      -v $NIM_CACHE_PATH:/opt/nim/.cache       -v $LOCAL_PEFT_DIRECTORY:$NIM_PEFT_SOURCE    -p 8000:8000   nvcr.io/nim/meta/llama-3.1-8b-instruct:1.2
+docker run -it --rm --name=$CONTAINER_NAME       --gpus all       --network=host       --shm-size=16GB       
+-e NGC_API_KEY       -e NIM_PEFT_SOURCE  -e NIM_MAX_MODEL_LEN=65525      
+-v $NIM_CACHE_PATH:/opt/nim/.cache       -v $LOCAL_PEFT_DIRECTORY:$NIM_PEFT_SOURCE   
+-p 8000:8000   nvcr.io/nim/meta/llama-3.1-8b-instruct:1.2
 
 # Open the Jupyter Notebook 
-docker run --gpus all -it --rm \
--p 8888:8888 \
---name nemo_jupyter \
-nvcr.io/nvidia/nemo:24.09 \
+docker run --gpus all -it --rm 
+-p 8888:8888 
+--name nemo_jupyter 
+nvcr.io/nvidia/nemo:24.09 
 jupyter notebook --ip=0.0.0.0 --no-browser
 
