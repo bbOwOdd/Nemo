@@ -1,0 +1,38 @@
+#/home/z890/.conda/envs/nemo/lib/python3.10/site-packages/nemo/collections/nlp/models/language_modeling
+def is_official_release_version(nvidia_torch_version):
+            return re.fullmatch("[0-9][0-9]\.[0-9][0-9].*", str(nvidia_torch_version))  # "YY.MM.*" -> origin: nvidia_torch_version
+            
+#/home/z890/.conda/envs/nemo/lib/python3.10/site-packages/nemo/collections/nlp/models/language_modeling
+def on_load_checkpoint(self, checkpoint) -> None:
+        """LightningModule hook:
+        https://pytorch-lightning.readthedocs.io/en/stable/common/lightning_module.html#on-load-checkpoint
+        """
+
+        # mcore uses distributed checkpointing
+        # FSDP supports the lagecy checkpointing or torch-FSDP-native sharded checkpointing
+        if self.mcore_gpt and not self.use_fsdp:
+            if 'state_dict' in checkpoint and checkpoint['state_dict']:
+                for index, module in enumerate(self.get_model_module_list()):
+                    if parallel_state.get_virtual_pipeline_model_parallel_world_size() is not None:
+                        checkpoint_state_dict = checkpoint['state_dict'][f'model_{index}']
+                    else:
+                        checkpoint_state_dict = checkpoint['state_dict']
+                    # checkpoint_state_dict has "model." but module does not so we need to remove it when loading
+                    checkpoint_state_dict = {
+                        key.replace('model.', ''): checkpoint_state_dict.pop(key)
+                        for key in list(checkpoint_state_dict.keys())
+                    }
+                    module.load_state_dict(checkpoint_state_dict, strict=False) -> origin: strict=True
+                    
+#/home/z890/.conda/envs/nemo/lib/python3.10/site-packages/megatron/core/transformer
+attention_output_with_bias = self.self_attention(
+            input_layernorm_output,
+            attention_mask=attention_mask,
+            inference_params=inference_params,
+            rotary_pos_emb=rotary_pos_emb,
+            rotary_pos_cos=rotary_pos_cos,
+            rotary_pos_sin=rotary_pos_sin,
+            attention_bias=attention_bias,
+            packed_seq_params=packed_seq_params,
+            #sequence_len_offset=sequence_len_offset, -> origin: sequence_len_offset=sequence_len_offset
+        )
