@@ -1,9 +1,7 @@
 # create virtual environment
-conda create --name nemo python==3.10.12
-
-conda activate nemo
-
-conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+conda create --name nemo python==3.10.12 \
+conda activate nemo \
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia \
 
 # Install nemo
 sudo apt-get update && sudo apt-get install -y libsndfile1 ffmpeg
