@@ -28,3 +28,5 @@ docker run --gpus all -it --rm
 nvcr.io/nvidia/nemo:24.09 
 jupyter notebook --ip=0.0.0.0 --no-browser
 
+# Original Source
+check more from https://github.com/NVIDIA/NeMo/blob/main/tutorials/llm/llama/biomedical-qa/llama3-lora-deploy-nim.ipynb
